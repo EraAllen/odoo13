@@ -38,6 +38,10 @@
       <field name="model">epidemic.record</field>
       <field name="arch" type="xml">
         <form>
+          <header>
+              <button string="测试按钮" type="object" class="oe_highlight" name="my_unlink"/>
+              <button string="搜索按钮" type="object" class="oe_highlight" name="my_search"/>
+          </header>
           <sheet>
             <group>
               <group string="基本信息：">
@@ -60,9 +64,7 @@
                 <field name="street" string="具体地址" required="1"/>
                 <field name="create_user_id" string="填报人" readonly="1"/>
                 <field name="fuzhu_create_user_ids" string="辅助填报人"
-<!--                       样式改变-->
                        widget="many2many_tags"
-<!--                       禁用创建和编辑-->
                        options="{'no_create': True, 'no_edit': True}"/>
                 <field name="test_float" string="测试浮点字段"/>
                 <field name="test_int" string="测试整型字段"/>

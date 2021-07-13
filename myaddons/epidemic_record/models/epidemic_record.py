@@ -29,6 +29,8 @@ class EpidemicRecord(models.Model):
 
     fuzhu_create_user_ids = fields.Many2many('res.users', 'epidemic_record_res_users_rel', column1='record_id', column2='user_id', string='辅助填报人')
 
+    active = fields.Boolean(default=True)
+
     @api.model
     def create(self, vals_list):
         vals_list['test_float'] = 1.0
@@ -42,6 +44,20 @@ class EpidemicRecord(models.Model):
         res = super(EpidemicRecord, self).write(vals)
         return res
 
+    def unlink(self):
+        # 伪删除功能
+        for obj in self:
+            obj.active = False
+
+
     @api.onchange('state', 'city', 'name')
     def onchange_note(self):
         self.note = '居住在{}省{}市的{}市民。'.format(self.state,self.city,self.name)
+
+    def my_unlink(self):
+        self.active = False
+
+    def my_search(self):
+        domain = [('is_ill','=',True)]
+        objc = self.search(domain)
+        print(objc)
